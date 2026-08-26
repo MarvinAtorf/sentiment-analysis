@@ -1,4 +1,8 @@
+from sklearn.model_selection import train_test_split    
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline, make_pipeline
 
 def load_and_validate_data(datha_path: str) -> pd.DataFrame:
     """
@@ -17,6 +21,31 @@ def load_and_validate_data(data_path: str) -> pd.DataFrame:
         raise ValueError("CSV must contain 'text' and 'label' columns")
     return df
 
+def split_data(
+    df: pd.DataFrame,
+) -> tuple[pd.Series, pd.Series, pd.Series, pd.Series]:
+    """
+    Splits the DataFrame into training and testing sets.
+    """
+    try:
+        # Stratified split is preferred
+        X_train, X_test, y_train, y_test = train_test_split(
+            df["text"], df["label"], test_size=0.2, random_state=42, stratify=df["label"]
+        )
+    except ValueError:
+        # Fallback if stratification fails (e.g., on very small datasets)
+        X_train, X_test, y_train, y_test = train_test_split(
+            df["text"], df["label"], test_size=0.2, random_state=42
+        )
+    return X_train, X_test, y_train, y_test
+
 if __name__ == "__main__":
     df = load_and_validate_data("sentiments.csv")
     print(df.head())
+
+    X_train, X_test, y_train, y_test = split_data(df)
+    model = train_model(X_train, y_train)
+        LogisticRegression(max_iter=1000),
+    
+    clf_pipeline.fit(X_train, y_train)
+    return clf_pipeline
