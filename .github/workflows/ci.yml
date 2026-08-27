@@ -37,7 +37,7 @@ jobs:
           pip install -r requirements.txt
       - name: Run the predict script
         run: |
-          python src/predict.py
+          python src/prediction.py
 
       - name: Create Issue on Failure
         if: failure() && github.event_name == 'push'  # Triggers only on push failures, ignores PRs
