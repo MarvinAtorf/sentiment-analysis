@@ -8,15 +8,18 @@ on:
       - "data/**"
       - "tests/**"
       - "requirements.txt"
+      - "pyproject.toml"
       - ".github/workflows/**"
+
   pull_request:
     paths:
       - "src/**"
       - "data/**"
       - "tests/**"
       - "requirements.txt"
+      - "pyproject.toml"
       - ".github/workflows/**"
-
+      
 # Required permissions to allow the GITHUB_TOKEN to create issues
 permissions:
     contents: read
@@ -73,3 +76,28 @@ jobs:
       - name: Run tests with pytest
         run: |
           python -m pytest -v
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Ruff
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      - name: Run Ruff lint check
+        run: |
+          ruff check .
+
+      - name: Check Ruff formatting
+        run: |
+          ruff format . --check

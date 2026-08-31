@@ -8,6 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
+
 def load_and_validate_data(data_path: str) -> pd.DataFrame:
     """
     Load training data from a CSV file and check required columns.
@@ -18,6 +19,7 @@ def load_and_validate_data(data_path: str) -> pd.DataFrame:
         raise ValueError("CSV must contain 'text' and 'label' columns")
 
     return df
+
 
 def split_data(
     df: pd.DataFrame,
@@ -35,18 +37,22 @@ def split_data(
 
     return X_train, X_test, y_train, y_test
 
+
 def train_model(X_train: pd.Series, y_train: pd.Series) -> Pipeline:
     """
     Create and train the sentiment analysis pipeline.
     """
-    model = Pipeline([
-        ("tfidf", TfidfVectorizer()),
-        ("classifier", LogisticRegression(max_iter=1000)),
-    ])
+    model = Pipeline(
+        [
+            ("tfidf", TfidfVectorizer()),
+            ("classifier", LogisticRegression(max_iter=1000)),
+        ]
+    )
 
     model.fit(X_train, y_train)
 
     return model
+
 
 def save_model(model: Pipeline, model_path: str) -> None:
     """
@@ -56,6 +62,7 @@ def save_model(model: Pipeline, model_path: str) -> None:
     dump(model, model_path)
 
     print(f"Saved model to {model_path}")
+
 
 def main(data_path: str, model_path: str) -> None:
     """
@@ -80,4 +87,3 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     main(data_path=args.data, model_path=args.out)
-    
