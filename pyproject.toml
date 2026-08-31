@@ -1,0 +1,8 @@
+[tool.ruff.lint]
+select = ["E", "F", "I", "T20"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["T201"]
+"messy_data_processor.py" = ["T201"]
+"src/train.py" = ["T201"]
+"src/prediction.py" = ["T201"]

@@ -1,5 +1,5 @@
+from src.prediction import format_prediction_lines, predict_texts
 from src.train import load_and_validate_data, split_data, train_model
-from src.prediction import predict_texts, format_prediction_lines
 
 
 def test_prediction_with_sentiments_csv():
